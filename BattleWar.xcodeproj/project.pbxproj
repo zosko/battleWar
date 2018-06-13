@@ -12,6 +12,8 @@
 		6D5F8F2E20D13DF30040BF32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D5F8F2D20D13DF30040BF32 /* Assets.xcassets */; };
 		6D5F8F3120D13DF30040BF32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D5F8F2F20D13DF30040BF32 /* Main.storyboard */; };
 		6D5F8F3420D13DF40040BF32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3320D13DF40040BF32 /* main.m */; };
+		6D5F8F3D20D13FAA0040BF32 /* Model_Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3C20D13FAA0040BF32 /* Model_Field.m */; };
+		6D5F8F4020D148440040BF32 /* Model_Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3F20D148440040BF32 /* Model_Ship.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,10 @@
 		6D5F8F3220D13DF30040BF32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D5F8F3320D13DF40040BF32 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6D5F8F3520D13DF40040BF32 /* BattleWar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BattleWar.entitlements; sourceTree = "<group>"; };
+		6D5F8F3B20D13FAA0040BF32 /* Model_Field.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model_Field.h; sourceTree = "<group>"; };
+		6D5F8F3C20D13FAA0040BF32 /* Model_Field.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Model_Field.m; sourceTree = "<group>"; };
+		6D5F8F3E20D148440040BF32 /* Model_Ship.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model_Ship.h; sourceTree = "<group>"; };
+		6D5F8F3F20D148440040BF32 /* Model_Ship.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Model_Ship.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,10 @@
 				6D5F8F2820D13DF30040BF32 /* AppDelegate.m */,
 				6D5F8F2A20D13DF30040BF32 /* ViewController.h */,
 				6D5F8F2B20D13DF30040BF32 /* ViewController.m */,
+				6D5F8F3B20D13FAA0040BF32 /* Model_Field.h */,
+				6D5F8F3C20D13FAA0040BF32 /* Model_Field.m */,
+				6D5F8F3E20D148440040BF32 /* Model_Ship.h */,
+				6D5F8F3F20D148440040BF32 /* Model_Ship.m */,
 				6D5F8F2D20D13DF30040BF32 /* Assets.xcassets */,
 				6D5F8F2F20D13DF30040BF32 /* Main.storyboard */,
 				6D5F8F3220D13DF30040BF32 /* Info.plist */,
@@ -139,8 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D5F8F3D20D13FAA0040BF32 /* Model_Field.m in Sources */,
 				6D5F8F2C20D13DF30040BF32 /* ViewController.m in Sources */,
 				6D5F8F3420D13DF40040BF32 /* main.m in Sources */,
+				6D5F8F4020D148440040BF32 /* Model_Ship.m in Sources */,
 				6D5F8F2920D13DF30040BF32 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
