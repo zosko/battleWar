@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Model_Ship.h"
 
 @import Cocoa;
 
@@ -17,6 +18,7 @@
 @property (nonatomic,assign) NSInteger xPos;
 @property (nonatomic,assign) NSInteger yPos;
 @property (nonatomic,strong) NSButton *buttonField;
+@property (nonatomic,strong) Model_Ship *ship;
 
 -(Model_Field *)initField:(NSInteger)x y:(NSInteger)y;
 

@@ -31,12 +31,15 @@
         [field.buttonField setEnabled:NO];
         if(field.hasShip){
             field.buttonField.layer.backgroundColor = [NSColor redColor].CGColor;
+            if([field.ship isDesroyed]){
+                NSLog(@"WAAAAAAAAAAW");
+            }
         }
     }
     else{
         if(!field.hasShip && shipToAdd > 0){
-            Model_Ship *horisontalBoat = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid];
-            if(horisontalBoat){
+            Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid];
+            if(ship){
                 [buttonAdd setEnabled:NO];
                 shipToAdd = 0;
             }

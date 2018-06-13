@@ -7,6 +7,7 @@
 //
 
 #import "Model_Ship.h"
+#import "Model_Field.h"
 
 @implementation Model_Ship
 
@@ -15,7 +16,6 @@
     self = [super init];
     if (self) {
         self.boatSize = boatSize;
-        self.field = field;
         self.isHorisontal = isHorisontal;
         
         NSMutableArray *arrFieldsToCheck = [NSMutableArray new];
@@ -47,11 +47,12 @@
         
         if([self areFieldsEmpty:arrFieldsToCheck]){
             for(Model_Field *field in arrFieldsToCheck){
+                field.ship = self;
                 field.hasShip = YES;
                 [field.buttonField setTitle:@"0"];
                 field.buttonField.layer.backgroundColor = [NSColor blueColor].CGColor;
-                self.fields = arrFieldsToCheck;
             }
+            self.fields = arrFieldsToCheck;
             return self;
         }
     }
@@ -59,6 +60,7 @@
 }
 -(BOOL)isDesroyed{
     for(Model_Field *field in self.fields){
+        NSLog(@"%d",field.isClicked);
         if(!field.isClicked){
             return NO;
         }
