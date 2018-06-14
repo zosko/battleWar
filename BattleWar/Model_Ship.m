@@ -49,8 +49,9 @@
             for(Model_Field *field in arrFieldsToCheck){
                 field.ship = self;
                 field.hasShip = YES;
-                [field.buttonField setTitle:@"0"];
+                [field.buttonField setTitle:@""];
                 field.buttonField.layer.backgroundColor = [NSColor blueColor].CGColor;
+                field.buttonField.enabled = NO;
             }
             self.fields = arrFieldsToCheck;
             return self;

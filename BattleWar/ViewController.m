@@ -23,7 +23,65 @@
     BOOL isYourTurn;
 }
 
--(void)fieldClicked:(NSButton *)button{
+#pragma mark - CustomFunctions
+-(void)generateMatrixView{
+    matrixGrid = [NSMutableArray new];
+    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
+        NSMutableArray *tmpMatrix = [NSMutableArray new];
+        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
+            Model_Field *field = [Model_Field.alloc initField:i y:j];
+            [tmpMatrix addObject:field];
+        }
+        [matrixGrid addObject:tmpMatrix];
+    }
+    
+    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
+        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
+            Model_Field *field = matrixGrid[i][j];
+            NSButton *btnField = [NSButton buttonWithTitle:[NSString stringWithFormat:@"%lu",i * MATRIX_SIZE + j] target:self action:@selector(fieldClicked:)];
+            btnField.tag = i * MATRIX_SIZE + j;
+            btnField.frame = CGRectMake(field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+            [btnField setBezelStyle:NSBezelStyleShadowlessSquare];
+            field.buttonField = btnField;
+            [self.view addSubview:btnField];
+        }
+    }
+}
+-(void)generateOpponentMatrixView{
+    matrixOpponentGrid = [NSMutableArray new];
+    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
+        NSMutableArray *tmpMatrix = [NSMutableArray new];
+        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
+            Model_Field *field = [Model_Field.alloc initField:i y:j];
+            [tmpMatrix addObject:field];
+        }
+        [matrixOpponentGrid addObject:tmpMatrix];
+    }
+    
+    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
+        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
+            Model_Field *field = matrixOpponentGrid[i][j];
+            NSButton *btnField = [NSButton buttonWithTitle:[NSString stringWithFormat:@"%lu",i * MATRIX_SIZE + j] target:self action:@selector(fieldOpponentClicked:)];
+            btnField.tag = i * MATRIX_SIZE + j;
+            btnField.frame = CGRectMake(700 + field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+            [btnField setBezelStyle:NSBezelStyleShadowlessSquare];
+            field.buttonField = btnField;
+            [self.view addSubview:btnField];
+        }
+    }
+}
+-(NSString *)getLocalIPAddress{
+    NSArray *ipAddresses = [[NSHost hostWithName:[[NSHost currentHost] name]] addresses];
+    for (NSString *ipAddress in ipAddresses) {
+        if ([ipAddress componentsSeparatedByString:@"."].count == 4) {
+            return ipAddress;
+        }
+    }
+    return @"Not Connected.";
+}
+
+#pragma mark - IBActions
+-(IBAction)fieldClicked:(NSButton *)button{
     NSInteger i = button.tag / MATRIX_SIZE;
     NSInteger j = button.tag % MATRIX_SIZE;
     
@@ -36,13 +94,14 @@
         }
     }
 }
--(void)fieldOpponentClicked:(NSButton *)button{
+-(IBAction)fieldOpponentClicked:(NSButton *)button{
     if(!isStarted) return;
     if(!isYourTurn) return;
     isYourTurn = NO;
     lblTurn.stringValue = @"Opponent turn";
-    [button setHidden:YES];
+    [button setEnabled:NO];
     [udpSocket sendData:[button.title dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
+    button.title = @"";
 }
 -(IBAction)onBtnAddShip:(NSButton *)sender{
     shipToAdd = sender.title.integerValue;
@@ -66,76 +125,12 @@
         NSLog(@"Error receiving: %@", error);
         return;
     }
-    
-    NSLog(@"CHECK IP ADDRESS with ifconfig | grep 192.168 ");
 }
--(void)viewDidLoad {
-    [super viewDidLoad];
-    matrixGrid = [NSMutableArray new];
-    shipToAdd = 0;
-    
-    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
-        NSMutableArray *tmpMatrix = [NSMutableArray new];
-        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
-            Model_Field *field = [Model_Field.alloc initField:i y:j];
-            [tmpMatrix addObject:field];
-        }
-        [matrixGrid addObject:tmpMatrix];
-    }
-    
-    [self generateMatrixView];
-    [self generateOpponentMatrixView];
-}
-
--(void)generateMatrixView{
-    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
-        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
-            Model_Field *field = matrixGrid[i][j];
-            NSButton *btnField = [NSButton buttonWithTitle:[NSString stringWithFormat:@"%lu",i * MATRIX_SIZE + j] target:self action:@selector(fieldClicked:)];
-            btnField.tag = i * MATRIX_SIZE + j;
-            btnField.frame = CGRectMake(field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
-            field.buttonField = btnField;
-            
-            [self.view addSubview:btnField];
-        }
-    }
-}
--(void)generateOpponentMatrixView{
-    
-    matrixOpponentGrid = [NSMutableArray new];
-    
-    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
-        NSMutableArray *tmpMatrix = [NSMutableArray new];
-        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
-            Model_Field *field = [Model_Field.alloc initField:i y:j];
-            [tmpMatrix addObject:field];
-        }
-        [matrixOpponentGrid addObject:tmpMatrix];
-    }
-    
-    for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
-        for(NSInteger j = 0; j < MATRIX_SIZE ; j++){
-            Model_Field *field = matrixOpponentGrid[i][j];
-            NSButton *btnField = [NSButton buttonWithTitle:[NSString stringWithFormat:@"%lu",i * MATRIX_SIZE + j] target:self action:@selector(fieldOpponentClicked:)];
-            btnField.tag = i * MATRIX_SIZE + j;
-            btnField.frame = CGRectMake(700 + field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
-            field.buttonField = btnField;
-            
-            [self.view addSubview:btnField];
-        }
-    }
-}
-
-
-- (void)setRepresentedObject:(id)representedObject {
-    [super setRepresentedObject:representedObject];
-}
-
 
 #pragma mark - Sockets
 -(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext {
     NSString *bombRecv = [NSString.alloc initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"bombRecv: %@",bombRecv);
+    NSLog(@"%@",bombRecv);
     if(!isStarted) return;
     if([bombRecv containsString:@"pogodi"]){
         bombRecv = [[bombRecv componentsSeparatedByString:@" "] firstObject];
@@ -143,6 +138,7 @@
         NSInteger j = bombRecv.integerValue % MATRIX_SIZE;
         Model_Field *field = matrixOpponentGrid[i][j];
         field.buttonField.layer.backgroundColor = [NSColor redColor].CGColor;
+        field.buttonField.title = @"";
         [field.buttonField setHidden:NO];
         isYourTurn = YES;
         lblTurn.stringValue = @"Your turn";
@@ -152,7 +148,8 @@
         NSAlert *alert = [NSAlert new];
         [alert setMessageText:bombRecv];
         [alert addButtonWithTitle:@"OK"];
-        [alert runModal];
+        [alert beginSheetModalForWindow:self.view.window completionHandler:nil];
+        
         isYourTurn = NO;
         lblTurn.stringValue = @"Opponent turn";
         return;
@@ -167,6 +164,7 @@
     field.isClicked = YES;
     if(field.hasShip){
         [field.buttonField setEnabled:NO];
+        field.buttonField.title = @"";
         field.buttonField.layer.backgroundColor = [NSColor redColor].CGColor;
         if([field.ship isDesroyed]){
             NSString *boatName = [NSString stringWithFormat:@"%@ pogodi",bombRecv];
@@ -181,8 +179,20 @@
         }
     }
     else{
-        [field.buttonField setHidden:YES];
+        [field.buttonField setEnabled:NO];
+        field.buttonField.title = @"";
     }
+}
+
+#pragma mark - UIViewDelegates
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    [self generateMatrixView];
+    [self generateOpponentMatrixView];
+    lblTurn.stringValue = self.getLocalIPAddress;
+}
+-(void)setRepresentedObject:(id)representedObject {
+    [super setRepresentedObject:representedObject];
 }
 
 @end
