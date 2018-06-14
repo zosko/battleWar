@@ -60,7 +60,6 @@
 }
 -(BOOL)isDesroyed{
     for(Model_Field *field in self.fields){
-        NSLog(@"%d",field.isClicked);
         if(!field.isClicked){
             return NO;
         }

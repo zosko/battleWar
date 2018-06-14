@@ -7,8 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GCDAsyncUdpSocket.h"
 
-@interface ViewController : NSViewController
+@interface ViewController : NSViewController <GCDAsyncUdpSocketDelegate>{
+    GCDAsyncUdpSocket *udpSocket;
+    IBOutlet NSTextField *txtIPAddress;
+    IBOutlet NSTextField *lblTurn;
+}
 
 
 @end

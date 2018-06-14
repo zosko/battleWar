@@ -14,6 +14,7 @@
 		6D5F8F3420D13DF40040BF32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3320D13DF40040BF32 /* main.m */; };
 		6D5F8F3D20D13FAA0040BF32 /* Model_Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3C20D13FAA0040BF32 /* Model_Field.m */; };
 		6D5F8F4020D148440040BF32 /* Model_Ship.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5F8F3F20D148440040BF32 /* Model_Ship.m */; };
+		6DAF99BA20D286B400E3580A /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAF99B820D286B400E3580A /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		6D5F8F3C20D13FAA0040BF32 /* Model_Field.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Model_Field.m; sourceTree = "<group>"; };
 		6D5F8F3E20D148440040BF32 /* Model_Ship.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model_Ship.h; sourceTree = "<group>"; };
 		6D5F8F3F20D148440040BF32 /* Model_Ship.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Model_Ship.m; sourceTree = "<group>"; };
+		6DAF99B820D286B400E3580A /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		6DAF99B920D286B400E3580A /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 		6D5F8F2620D13DF30040BF32 /* BattleWar */ = {
 			isa = PBXGroup;
 			children = (
+				6DAF99B920D286B400E3580A /* GCDAsyncUdpSocket.h */,
+				6DAF99B820D286B400E3580A /* GCDAsyncUdpSocket.m */,
 				6D5F8F2720D13DF30040BF32 /* AppDelegate.h */,
 				6D5F8F2820D13DF30040BF32 /* AppDelegate.m */,
 				6D5F8F2A20D13DF30040BF32 /* ViewController.h */,
@@ -111,6 +116,11 @@
 				TargetAttributes = {
 					6D5F8F2320D13DF30040BF32 = {
 						CreatedOnToolsVersion = 9.4;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -152,6 +162,7 @@
 				6D5F8F3D20D13FAA0040BF32 /* Model_Field.m in Sources */,
 				6D5F8F2C20D13DF30040BF32 /* ViewController.m in Sources */,
 				6D5F8F3420D13DF40040BF32 /* main.m in Sources */,
+				6DAF99BA20D286B400E3580A /* GCDAsyncUdpSocket.m in Sources */,
 				6D5F8F4020D148440040BF32 /* Model_Ship.m in Sources */,
 				6D5F8F2920D13DF30040BF32 /* AppDelegate.m in Sources */,
 			);
