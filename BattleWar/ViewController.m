@@ -79,6 +79,7 @@
 }
 -(NSString *)getLocalIPAddress{
     NSArray *ipAddresses = [[NSHost hostWithName:[[NSHost currentHost] name]] addresses];
+    NSLog(@"%@",ipAddresses);
     for (NSString *ipAddress in ipAddresses) {
         if ([ipAddress componentsSeparatedByString:@"."].count == 4 && ![ipAddress hasPrefix:@"169"]) {
             return ipAddress;
@@ -198,7 +199,10 @@
     [super viewDidLoad];
     [self generateMatrixView];
     [self generateOpponentMatrixView];
-    lblTurn.stringValue = self.getLocalIPAddress;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+       self->lblTurn.stringValue = self.getLocalIPAddress;
+    }];
 }
 -(void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
