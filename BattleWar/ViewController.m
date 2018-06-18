@@ -120,20 +120,11 @@
     isHorisontal = !sender.tag;
 }
 -(IBAction)onBtnStart:(NSButton *)sender{
+    [sender setHidden:YES];
     isStarted = YES;
     isYourTurn = YES;
-    lblTurn.stringValue = @"Your turn";
-    udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    NSError *error = nil;
-    
-    if (![udpSocket bindToPort:31337 error:&error]){
-        NSLog(@"Error binding: %@", error);
-        return;
-    }
-    if (![udpSocket beginReceiving:&error]){
-        NSLog(@"Error receiving: %@", error);
-        return;
-    }
+    lblTurn.stringValue = @"Waiting opponent";
+    [udpSocket sendData:[[NSString stringWithFormat:@"ready %@",strIpAddress] dataUsingEncoding:NSUTF8StringEncoding] toHost:@"255.255.255.255" port:31337 withTimeout:-1 tag:0];
 }
 
 #pragma mark - Sockets
@@ -141,6 +132,14 @@
     NSString *bombRecv = [NSString.alloc initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",bombRecv);
     if(!isStarted) return;
+    
+    if([bombRecv containsString:@"ready"]){
+        NSString *opponentIpAddress = [[bombRecv componentsSeparatedByString:@" "] lastObject];
+        if(![strIpAddress isEqualToString:opponentIpAddress]){
+            txtIPAddress.stringValue = opponentIpAddress;
+        }
+        return;
+    }
     if([bombRecv containsString:@"hit"]){
         bombRecv = [[bombRecv componentsSeparatedByString:@" "] firstObject];
         NSInteger i = bombRecv.integerValue / MATRIX_SIZE;
@@ -201,8 +200,23 @@
     [self generateOpponentMatrixView];
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-       self->lblTurn.stringValue = self.getLocalIPAddress;
+       self->strIpAddress = self->lblTurn.stringValue = self.getLocalIPAddress;
     }];
+    
+    udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    NSError *error = nil;
+    
+    if (![udpSocket bindToPort:31337 error:&error]){
+        NSLog(@"Error binding: %@", error);
+        return;
+    }
+    if (![udpSocket beginReceiving:&error]){
+        NSLog(@"Error receiving: %@", error);
+        return;
+    }
+    if ([udpSocket enableBroadcast:YES error:&error] == false) {
+        NSLog(@"Failed to enable broadcast, Reason : %@",[error userInfo]);
+    }
 }
 -(void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];

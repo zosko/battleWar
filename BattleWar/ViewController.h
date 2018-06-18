@@ -13,6 +13,7 @@
     GCDAsyncUdpSocket *udpSocket;
     IBOutlet NSTextField *txtIPAddress;
     IBOutlet NSTextField *lblTurn;
+    NSString *strIpAddress;
 }
 
 
