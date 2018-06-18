@@ -145,8 +145,8 @@
     Model_Field *field = matrixGrid[i][j];
     if(!field.hasShip && shipToAdd > 0){
         Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid preview:YES];
+        if(ship){}
     }
-    NSLog(@"entered");
 }
 -(void)mouseExited:(NSEvent *)theEvent{
     if(isStarted) return;
@@ -157,8 +157,7 @@
     
     Model_Field *field = matrixGrid[i][j];
     Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid preview:YES];
-    
-    NSLog(@"exited");
+    if(ship){}
 }
 
 #pragma mark - Sockets
@@ -216,16 +215,19 @@
             boatName = [NSString stringWithFormat:@"%@ destroyed",@[@"boat",@"boat",@"boat",@"boat",@"boat",@"boat"][field.ship.boatSize]];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
             boats_destroyed++;
-            if(boats_destroyed >= 4){
-                NSAlert *alert = [NSAlert new];
-                [alert setMessageText:@"YOU LOOSE"];
-                [alert addButtonWithTitle:@"OK"];
-                [alert beginSheetModalForWindow:self.view.window completionHandler:nil];
-            }
+            [[NSSound soundNamed:@"bomb"] play];
         }
         else{
+            [[NSSound soundNamed:@"Glass"] play];
             NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
+        }
+        
+        if(boats_destroyed >= 4){
+            NSAlert *alert = [NSAlert new];
+            [alert setMessageText:@"YOU LOOSE"];
+            [alert addButtonWithTitle:@"OK"];
+            [alert beginSheetModalForWindow:self.view.window completionHandler:nil];
         }
     }
     else{
