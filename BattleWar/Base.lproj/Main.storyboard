@@ -714,95 +714,95 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zsj-mi-pYd">
-                                <rect key="frame" x="504" y="452" width="48" height="32"/>
+                                <rect key="frame" x="507" y="442" width="45" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="2" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0f5-ju-EW9">
+                                <buttonCell key="cell" type="square" title="2" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0f5-ju-EW9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="20"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnAddShip:" target="XfG-lQ-9wD" id="Re6-5o-hIL"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Afw-N4-8io">
-                                <rect key="frame" x="554" y="452" width="49" height="32"/>
+                                <rect key="frame" x="555" y="442" width="45" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="3" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JI3-jA-AKj">
+                                <buttonCell key="cell" type="square" title="3" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JI3-jA-AKj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="20"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnAddShip:" target="XfG-lQ-9wD" id="8AV-ki-Wwl"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulQ-rx-wqg">
-                                <rect key="frame" x="605" y="452" width="49" height="32"/>
+                                <rect key="frame" x="603" y="442" width="45" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="4" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EoO-CW-2no">
+                                <buttonCell key="cell" type="square" title="4" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EoO-CW-2no">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="20"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnAddShip:" target="XfG-lQ-9wD" id="Agq-Ld-LHJ"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sLc-d9-sj1">
-                                <rect key="frame" x="655" y="452" width="48" height="32"/>
+                                <rect key="frame" x="651" y="442" width="45" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="5" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Z8g-bR-WKF">
+                                <buttonCell key="cell" type="square" title="5" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Z8g-bR-WKF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="20"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnAddShip:" target="XfG-lQ-9wD" id="azX-78-SYF"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vL-kp-XXM">
-                                <rect key="frame" x="503" y="419" width="101" height="32"/>
+                                <rect key="frame" x="507" y="398" width="94" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="horisontal" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Ve-lc-YPP">
+                                <buttonCell key="cell" type="square" title="Horisontal" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Ve-lc-YPP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="14"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnHorisontal:" target="XfG-lQ-9wD" id="Ofr-Ma-Xxd"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Guo-ZF-lDc">
-                                <rect key="frame" x="618" y="419" width="85" height="32"/>
+                                <rect key="frame" x="602" y="398" width="94" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="vertical" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IPr-t4-WQs">
+                                <buttonCell key="cell" type="square" title="Vertical" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IPr-t4-WQs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold" size="14"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnHorisontal:" target="XfG-lQ-9wD" id="VrF-gN-WCE"/>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2UK-Xu-Ctt">
-                                <rect key="frame" x="505" y="296" width="192" height="22"/>
+                                <rect key="frame" x="507" y="252" width="190" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Ukt-fA-0e6">
-                                    <font key="font" metaFont="system"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Opponent IP address" drawsBackground="YES" id="Ukt-fA-0e6">
+                                    <font key="font" metaFont="system" size="16"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qy3-TR-Ztr">
-                                <rect key="frame" x="548" y="251" width="114" height="17"/>
+                                <rect key="frame" x="507" y="294" width="190" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="GU3-18-Dwd">
-                                    <font key="font" metaFont="system"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="GU3-18-Dwd">
+                                    <font key="font" metaFont="system" size="20"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrZ-UH-BFI">
-                                <rect key="frame" x="567" y="363" width="69" height="32"/>
+                                <rect key="frame" x="506" y="332" width="190" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tAr-ox-naT">
+                                <buttonCell key="cell" type="square" title="START" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tAr-ox-naT">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="system" size="30"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onBtnStart:" target="XfG-lQ-9wD" id="oCQ-fb-dZY"/>

@@ -42,6 +42,8 @@
             btnField.tag = i * MATRIX_SIZE + j;
             btnField.frame = CGRectMake(field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
             [btnField setBezelStyle:NSBezelStyleShadowlessSquare];
+            NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:btnField.title attributes:@{NSForegroundColorAttributeName:[NSColor clearColor]}];
+            [btnField setAttributedTitle:attrString];
             field.buttonField = btnField;
             [self.view addSubview:btnField];
         }
@@ -65,6 +67,11 @@
             btnField.tag = i * MATRIX_SIZE + j;
             btnField.frame = CGRectMake(700 + field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
             [btnField setBezelStyle:NSBezelStyleShadowlessSquare];
+            
+            NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:btnField.title attributes:@{NSForegroundColorAttributeName:[NSColor clearColor]}];
+            [btnField setAttributedTitle:attrString];
+            
+            
             field.buttonField = btnField;
             [self.view addSubview:btnField];
         }
@@ -73,7 +80,7 @@
 -(NSString *)getLocalIPAddress{
     NSArray *ipAddresses = [[NSHost hostWithName:[[NSHost currentHost] name]] addresses];
     for (NSString *ipAddress in ipAddresses) {
-        if ([ipAddress componentsSeparatedByString:@"."].count == 4) {
+        if ([ipAddress componentsSeparatedByString:@"."].count == 4 && ![ipAddress hasPrefix:@"169"]) {
             return ipAddress;
         }
     }
@@ -102,6 +109,7 @@
     [button setEnabled:NO];
     [udpSocket sendData:[button.title dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
     button.title = @"";
+    button.layer.backgroundColor = [NSColor lightGrayColor].CGColor;
 }
 -(IBAction)onBtnAddShip:(NSButton *)sender{
     shipToAdd = sender.title.integerValue;
@@ -132,7 +140,7 @@
     NSString *bombRecv = [NSString.alloc initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",bombRecv);
     if(!isStarted) return;
-    if([bombRecv containsString:@"pogodi"]){
+    if([bombRecv containsString:@"hit"]){
         bombRecv = [[bombRecv componentsSeparatedByString:@" "] firstObject];
         NSInteger i = bombRecv.integerValue / MATRIX_SIZE;
         NSInteger j = bombRecv.integerValue % MATRIX_SIZE;
@@ -144,7 +152,7 @@
         lblTurn.stringValue = @"Your turn";
         return;
     }
-    if([bombRecv containsString:@"unisteno"]){
+    if([bombRecv containsString:@"destroyed"]){
         NSAlert *alert = [NSAlert new];
         [alert setMessageText:bombRecv];
         [alert addButtonWithTitle:@"OK"];
@@ -167,20 +175,21 @@
         field.buttonField.title = @"";
         field.buttonField.layer.backgroundColor = [NSColor redColor].CGColor;
         if([field.ship isDesroyed]){
-            NSString *boatName = [NSString stringWithFormat:@"%@ pogodi",bombRecv];
+            NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
             
-            boatName = [NSString stringWithFormat:@"%@ unisteno",@[@"poseidon",@"spiun",@"kajce",@"penta",@"traekt",@"tanker"][field.ship.boatSize]];
+            boatName = [NSString stringWithFormat:@"%@ destroyed",@[@"boat",@"boat",@"boat",@"boat",@"boat",@"boat"][field.ship.boatSize]];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
         }
         else{
-            NSString *boatName = [NSString stringWithFormat:@"%@ pogodi",bombRecv];
+            NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
         }
     }
     else{
         [field.buttonField setEnabled:NO];
         field.buttonField.title = @"";
+        field.buttonField.layer.backgroundColor = [NSColor lightGrayColor].CGColor;
     }
 }
 
