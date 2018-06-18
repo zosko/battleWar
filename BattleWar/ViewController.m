@@ -175,6 +175,8 @@
     
     if(!isStarted) return;
     if([bombRecv containsString:@"hit"]){
+        [[NSSound soundNamed:@"Glass"] play];
+        
         bombRecv = [[bombRecv componentsSeparatedByString:@" "] firstObject];
         NSInteger i = bombRecv.integerValue / MATRIX_SIZE;
         NSInteger j = bombRecv.integerValue % MATRIX_SIZE;
@@ -187,6 +189,8 @@
         return;
     }
     if([bombRecv containsString:@"destroyed"]){
+        [[NSSound soundNamed:@"Glass"] play];
+        
         NSAlert *alert = [NSAlert new];
         [alert setMessageText:bombRecv];
         [alert addButtonWithTitle:@"OK"];
@@ -195,6 +199,9 @@
         isYourTurn = NO;
         lblTurn.stringValue = @"Opponent turn";
         return;
+    }
+    if([bombRecv containsString:@"victory"]){
+        [[NSSound soundNamed:@"victory"] play];
     }
     
     isYourTurn = YES;
@@ -224,6 +231,9 @@
         }
         
         if(boats_destroyed >= 4){
+            [udpSocket sendData:[@"victory" dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
+            [[NSSound soundNamed:@"looser"] play];
+            
             NSAlert *alert = [NSAlert new];
             [alert setMessageText:@"YOU LOOSE"];
             [alert addButtonWithTitle:@"OK"];
