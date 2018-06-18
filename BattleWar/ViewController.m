@@ -21,6 +21,7 @@
     NSButton *buttonAdd;
     BOOL isStarted;
     BOOL isYourTurn;
+    int boats_destroyed;
 }
 
 #pragma mark - CustomFunctions
@@ -45,6 +46,12 @@
             NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:btnField.title attributes:@{NSForegroundColorAttributeName:[NSColor clearColor]}];
             [btnField setAttributedTitle:attrString];
             field.buttonField = btnField;
+            
+            NSTrackingArea* trackingArea = [[NSTrackingArea alloc] initWithRect:[btnField bounds]
+                                                                        options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways
+                                                                          owner:self userInfo:@{@"tag":@(btnField.tag)}];
+            [btnField addTrackingArea:trackingArea];
+            
             [self.view addSubview:btnField];
         }
     }
@@ -95,7 +102,7 @@
     
     Model_Field *field = matrixGrid[i][j];
     if(!isStarted && !field.hasShip && shipToAdd > 0){
-        Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid];
+        Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid preview:NO];
         if(ship){
             [buttonAdd setHidden:YES];
             shipToAdd = 0;
@@ -108,7 +115,7 @@
     isYourTurn = NO;
     lblTurn.stringValue = @"Opponent turn";
     [button setEnabled:NO];
-    [udpSocket sendData:[button.title dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
+    [udpSocket sendData:[button.title dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
     button.title = @"";
     button.layer.backgroundColor = [NSColor lightGrayColor].CGColor;
 }
@@ -124,22 +131,50 @@
     isStarted = YES;
     isYourTurn = YES;
     lblTurn.stringValue = @"Waiting opponent";
-    [udpSocket sendData:[[NSString stringWithFormat:@"ready %@",strIpAddress] dataUsingEncoding:NSUTF8StringEncoding] toHost:@"255.255.255.255" port:31337 withTimeout:-1 tag:0];
+    [udpSocket sendData:[[NSString stringWithFormat:@"ready %@",strMineIpAddress] dataUsingEncoding:NSUTF8StringEncoding] toHost:@"255.255.255.255" port:31337 withTimeout:-1 tag:0];
+}
+
+#pragma mark - MouseHoverEvent
+-(void)mouseEntered:(NSEvent *)theEvent{
+    if(isStarted) return;
+    
+    NSInteger btnTag = [theEvent.trackingArea.userInfo[@"tag"] integerValue];
+    NSInteger i = btnTag / MATRIX_SIZE;
+    NSInteger j = btnTag % MATRIX_SIZE;
+    
+    Model_Field *field = matrixGrid[i][j];
+    if(!field.hasShip && shipToAdd > 0){
+        Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid preview:YES];
+    }
+    NSLog(@"entered");
+}
+-(void)mouseExited:(NSEvent *)theEvent{
+    if(isStarted) return;
+    
+    NSInteger btnTag = [theEvent.trackingArea.userInfo[@"tag"] integerValue];
+    NSInteger i = btnTag / MATRIX_SIZE;
+    NSInteger j = btnTag % MATRIX_SIZE;
+    
+    Model_Field *field = matrixGrid[i][j];
+    Model_Ship *ship = [Model_Ship.alloc initBoatSize:shipToAdd field:field horisontal:isHorisontal grid:matrixGrid preview:YES];
+    
+    NSLog(@"exited");
 }
 
 #pragma mark - Sockets
 -(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext {
     NSString *bombRecv = [NSString.alloc initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",bombRecv);
-    if(!isStarted) return;
     
     if([bombRecv containsString:@"ready"]){
         NSString *opponentIpAddress = [[bombRecv componentsSeparatedByString:@" "] lastObject];
-        if(![strIpAddress isEqualToString:opponentIpAddress]){
-            txtIPAddress.stringValue = opponentIpAddress;
+        if(![strMineIpAddress isEqualToString:opponentIpAddress]){
+            strOpponentIpAddress = opponentIpAddress;
         }
         return;
     }
+    
+    if(!isStarted) return;
     if([bombRecv containsString:@"hit"]){
         bombRecv = [[bombRecv componentsSeparatedByString:@" "] firstObject];
         NSInteger i = bombRecv.integerValue / MATRIX_SIZE;
@@ -176,14 +211,21 @@
         field.buttonField.layer.backgroundColor = [NSColor redColor].CGColor;
         if([field.ship isDesroyed]){
             NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
-            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
+            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
             
             boatName = [NSString stringWithFormat:@"%@ destroyed",@[@"boat",@"boat",@"boat",@"boat",@"boat",@"boat"][field.ship.boatSize]];
-            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
+            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
+            boats_destroyed++;
+            if(boats_destroyed >= 4){
+                NSAlert *alert = [NSAlert new];
+                [alert setMessageText:@"YOU LOOSE"];
+                [alert addButtonWithTitle:@"OK"];
+                [alert beginSheetModalForWindow:self.view.window completionHandler:nil];
+            }
         }
         else{
             NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
-            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:txtIPAddress.stringValue port:31337 withTimeout:-1 tag:0];
+            [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
         }
     }
     else{
@@ -200,7 +242,7 @@
     [self generateOpponentMatrixView];
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-       self->strIpAddress = self->lblTurn.stringValue = self.getLocalIPAddress;
+       self->strMineIpAddress = self.getLocalIPAddress;
     }];
     
     udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];

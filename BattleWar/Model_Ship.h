@@ -14,7 +14,7 @@
 @property (nonatomic,strong) NSArray *fields;
 @property (nonatomic,assign) BOOL isHorisontal;
 
--(Model_Ship *)initBoatSize:(NSInteger)boatSize field:(id)field horisontal:(BOOL)isHorisontal grid:(NSArray *)grid;
+-(Model_Ship *)initBoatSize:(NSInteger)boatSize field:(id)field horisontal:(BOOL)isHorisontal grid:(NSArray *)grid preview:(BOOL)preview;
 
 -(BOOL)isDesroyed;
 

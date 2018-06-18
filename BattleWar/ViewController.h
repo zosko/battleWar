@@ -11,9 +11,9 @@
 
 @interface ViewController : NSViewController <GCDAsyncUdpSocketDelegate>{
     GCDAsyncUdpSocket *udpSocket;
-    IBOutlet NSTextField *txtIPAddress;
     IBOutlet NSTextField *lblTurn;
-    NSString *strIpAddress;
+    NSString *strMineIpAddress;
+    NSString *strOpponentIpAddress;
 }
 
 

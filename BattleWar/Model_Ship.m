@@ -12,7 +12,7 @@
 @implementation Model_Ship
 
 
--(Model_Ship *)initBoatSize:(NSInteger)boatSize field:(Model_Field *)field horisontal:(BOOL)isHorisontal grid:(NSArray *)grid{
+-(Model_Ship *)initBoatSize:(NSInteger)boatSize field:(Model_Field *)field horisontal:(BOOL)isHorisontal grid:(NSArray *)grid preview:(BOOL)preview{
     self = [super init];
     if (self) {
         self.boatSize = boatSize;
@@ -45,16 +45,34 @@
             }
         }
         
-        if([self areFieldsEmpty:arrFieldsToCheck]){
-            for(Model_Field *field in arrFieldsToCheck){
-                field.ship = self;
-                field.hasShip = YES;
-                [field.buttonField setTitle:@""];
-                field.buttonField.layer.backgroundColor = [NSColor blueColor].CGColor;
-                field.buttonField.enabled = NO;
+        if(preview){
+            if([self areFieldsEmpty:arrFieldsToCheck]){
+                for(Model_Field *field in arrFieldsToCheck){
+                    if(field.buttonField.layer.backgroundColor == [NSColor orangeColor].CGColor){
+                        field.buttonField.layer.backgroundColor = [NSColor clearColor].CGColor;
+                        field.buttonField.highlighted = NO;
+                    }
+                    else{
+                        field.buttonField.highlighted = YES;
+                        field.buttonField.layer.backgroundColor = [NSColor orangeColor].CGColor;
+                    }
+                }
+                return nil;
             }
-            self.fields = arrFieldsToCheck;
-            return self;
+            
+        }
+        else{
+            if([self areFieldsEmpty:arrFieldsToCheck]){
+                for(Model_Field *field in arrFieldsToCheck){
+                    field.ship = self;
+                    field.hasShip = YES;
+                    [field.buttonField setTitle:@""];
+                    field.buttonField.layer.backgroundColor = [NSColor blueColor].CGColor;
+                    field.buttonField.enabled = NO;
+                }
+                self.fields = arrFieldsToCheck;
+                return self;
+            }
         }
     }
     return nil;
