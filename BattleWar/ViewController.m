@@ -167,6 +167,7 @@
         NSString *opponentIpAddress = [[bombRecv componentsSeparatedByString:@" "] lastObject];
         if(![strMineIpAddress isEqualToString:opponentIpAddress]){
             strOpponentIpAddress = opponentIpAddress;
+            lblTurn.stringValue = @"Game started";
         }
         return;
     }
@@ -187,7 +188,7 @@
         return;
     }
     if([bombRecv containsString:@"destroyed"]){
-        [[NSSound soundNamed:@"Glass"] play];
+        [[NSSound soundNamed:@"bomb"] play];
         
         NSAlert *alert = [NSAlert new];
         [alert setMessageText:bombRecv];
@@ -217,7 +218,7 @@
             NSString *boatName = [NSString stringWithFormat:@"%@ hit",bombRecv];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
             
-            boatName = [NSString stringWithFormat:@"%@ destroyed",@[@"boat",@"boat",@"boat",@"boat",@"boat",@"boat"][field.ship.boatSize]];
+            boatName = [NSString stringWithFormat:@"%@ destroyed",@[@"Ghost Boat",@"Lifeboat",@"Patrol Boat",@"Destroyer",@"Submarine",@"Aircraft Carrier"][field.ship.boatSize]];
             [udpSocket sendData:[boatName dataUsingEncoding:NSUTF8StringEncoding] toHost:strOpponentIpAddress port:31337 withTimeout:-1 tag:0];
             boats_destroyed++;
             [[NSSound soundNamed:@"bomb"] play];
