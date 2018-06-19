@@ -25,6 +25,9 @@
 }
 
 #pragma mark - CustomFunctions
+-(void)restartGame{
+    //TODO: MAKE RESTART GAME
+}
 -(void)generateMatrixView{
     matrixGrid = [NSMutableArray new];
     for(NSInteger i = 0; i < MATRIX_SIZE ; i++){
@@ -46,12 +49,10 @@
             NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:btnField.title attributes:@{NSForegroundColorAttributeName:[NSColor clearColor]}];
             [btnField setAttributedTitle:attrString];
             field.buttonField = btnField;
-            
             NSTrackingArea* trackingArea = [[NSTrackingArea alloc] initWithRect:[btnField bounds]
                                                                         options:NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways
                                                                           owner:self userInfo:@{@"tag":@(btnField.tag)}];
             [btnField addTrackingArea:trackingArea];
-            
             [self.view addSubview:btnField];
         }
     }
@@ -74,11 +75,8 @@
             btnField.tag = i * MATRIX_SIZE + j;
             btnField.frame = CGRectMake(700 + field.xPos * FIELD_SIZE, field.yPos * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
             [btnField setBezelStyle:NSBezelStyleShadowlessSquare];
-            
             NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:btnField.title attributes:@{NSForegroundColorAttributeName:[NSColor clearColor]}];
             [btnField setAttributedTitle:attrString];
-            
-            
             field.buttonField = btnField;
             [self.view addSubview:btnField];
         }
